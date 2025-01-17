@@ -6,7 +6,8 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.bigint('user_id').references('id').inTable('users').notNullable()
+      table.string('uid').notNullable().unique()
+      table.bigint('user_id').references('id').inTable('users').nullable()
       table.bigint('structure_id').unsigned().references('id').inTable('structures').nullable()
       table.timestamp('target_datetime').notNullable()
       table.jsonb('order').notNullable()
