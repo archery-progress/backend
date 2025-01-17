@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
-import {BaseModel, beforeCreate, column, scope} from '@adonisjs/lucid/orm'
-import StringHelper from "@adonisjs/core/helpers/string";
+import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
+import StringHelper from '@adonisjs/core/helpers/string'
 
 export default class Practice extends BaseModel {
   @column({ isPrimary: true })
