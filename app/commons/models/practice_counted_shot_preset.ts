@@ -1,9 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
+import StringHelper from '@adonisjs/core/helpers/string'
 
 export default class PracticeCountedShotPreset extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
+
+  @column()
+  declare uid: string
 
   @column()
   declare name: string
@@ -31,4 +35,20 @@ export default class PracticeCountedShotPreset extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @beforeCreate()
+  public static assignUuid(practiceCountedShotPreset: PracticeCountedShotPreset) {
+    if (!practiceCountedShotPreset.uid) {
+      practiceCountedShotPreset.uid = StringHelper.generateRandom(10)
+    }
+  }
+
+  static search = scope((query, search?: string) => {
+    query.if(search, (builder) => {
+      const columns = ['name', 'description', 'content', 'metadata', 'flags']
+      columns.forEach((field) => {
+        builder.orWhere(field, 'like', `%${search}%`)
+      })
+    })
+  })
 }

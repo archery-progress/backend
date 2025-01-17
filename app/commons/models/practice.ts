@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import {BaseModel, beforeCreate, column, scope} from '@adonisjs/lucid/orm'
+import StringHelper from "@adonisjs/core/helpers/string";
 
 export default class Practice extends BaseModel {
   @column({ isPrimary: true })
@@ -43,4 +44,23 @@ export default class Practice extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @beforeCreate()
+  public static assignUuid(practice: Practice) {
+    if (!practice.uid) {
+      practice.uid = StringHelper.generateRandom(10)
+    }
+  }
+
+  static search = scope((query, search?: string) => {
+    // If search is given, followed is executed
+    query.if(search, (builder) => {
+      // Columns returned by query
+      const columns = ['uid', 'name', 'description', 'content', 'status', 'type']
+      // Does a verification on each column
+      columns.forEach((field) => {
+        builder.orWhere(field, 'like', `%${search}%`)
+      })
+    })
+  })
 }

@@ -4,7 +4,7 @@ import User from '#models/user'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import Role from '#models/role'
 import { Infer } from '@vinejs/vine/types'
-import { permissionSearchValidator } from '#app/manager/accounts/validators/permissions_validator'
+import { permissionSearchValidator } from '#domains/accounts/validators/permissions_validator'
 
 export default class Permission extends BaseModel {
   @column({ isPrimary: true })
