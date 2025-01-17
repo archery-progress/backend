@@ -6,6 +6,7 @@ export function PracticeFiringSequenceFactory(practice?: Practice) {
   return factory
     .define(PracticeFiringSequence, async ({ faker }) => {
       return PracticeFiringSequence.create({
+        uid: faker.string.uuid(),
         practiceId: practice?.id ?? undefined,
         results: faker.getMetadata(),
         annotation: faker.lorem.paragraph(2),

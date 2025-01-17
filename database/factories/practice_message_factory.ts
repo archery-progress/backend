@@ -7,6 +7,7 @@ export function PracticeMessageFactory(practice?: Practice, user?: User) {
   return factory
     .define(PracticeMessage, async ({ faker }) => {
       return PracticeMessage.create({
+        uid: faker.string.uuid(),
         practiceId: practice?.id ?? undefined,
         content: faker.lorem.paragraph(2),
         userId: user?.id ?? undefined,

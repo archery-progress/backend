@@ -8,6 +8,7 @@ export function SessionFactory(user?: User, structure?: Structure) {
   return factory
     .define(Session, async ({ faker }) => {
       return Session.create({
+        uid: faker.string.uuid(),
         userId: user?.id ?? undefined,
         structureId: structure?.id ?? undefined,
         target_datetime: DateTime.fromJSDate(faker.date.birthdate()),
