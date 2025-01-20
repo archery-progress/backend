@@ -32,7 +32,7 @@ router
         router.put(':uid', [PracticeCountedShotPresetsController, 'update']).as('update')
         router.delete(':uid', [PracticeCountedShotPresetsController, 'destroy']).as('delete')
       })
-      .prefix('/counted_shot_presets')
+      .prefix('/counted-shot-presets')
       .as('counted_shot_presets')
 
     router
@@ -42,7 +42,7 @@ router
         router.put(':uid', [PracticeFiringSequencesController, 'update']).as('update')
         router.delete(':uid', [PracticeFiringSequencesController, 'destroy']).as('delete')
       })
-      .prefix('/firing_sequences')
+      .prefix('/firing-sequences')
       .as('firing_sequences')
   })
   .prefix('/practices')

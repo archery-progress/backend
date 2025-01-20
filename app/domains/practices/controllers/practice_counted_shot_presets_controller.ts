@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import {
   searchPracticeCountedShotPresetValidator,
-  createPracticeCountedShotPresetValidator,
+  storePracticeCountedShotPresetValidator,
   updatePracticeCountedShotPresetValidator,
 } from '#domains/practices/validators/practice_counted_shot_preset_validator'
 import { inject } from '@adonisjs/core'
@@ -17,7 +17,7 @@ export default class PracticeCountedShotPresetsController {
   }
 
   async store({ request }: HttpContext) {
-    const payload = await request.validateUsing(createPracticeCountedShotPresetValidator)
+    const payload = await request.validateUsing(storePracticeCountedShotPresetValidator)
     return this.practiceCountedShotPresetService.store(payload)
   }
 

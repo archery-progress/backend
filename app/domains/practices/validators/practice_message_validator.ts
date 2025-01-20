@@ -6,7 +6,7 @@ export const searchPracticeMessageValidator = vine.compile(
   vine.object(searchComposable.getProperties())
 )
 
-export const createPracticeMessageValidator = vine.compile(
+export const storePracticeMessageValidator = vine.compile(
   vine.object({
     practiceId: vine.number().optional(),
     content: vine.string().minLength(2).maxLength(255),
@@ -23,7 +23,7 @@ export const updatePracticeMessageValidator = vine.compile(
 )
 
 export type SearchPracticeMessageSchema = Infer<typeof searchPracticeMessageValidator>
-export type StorePracticeMessageSchema = Infer<typeof createPracticeMessageValidator>
+export type StorePracticeMessageSchema = Infer<typeof storePracticeMessageValidator>
 export type UpdatePracticeMessageSchema = Infer<typeof updatePracticeMessageValidator> & {
   uid: string
 }

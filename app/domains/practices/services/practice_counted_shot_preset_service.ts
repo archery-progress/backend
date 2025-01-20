@@ -1,8 +1,7 @@
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
-
 import {
   SearchPracticeCountedShotPresetSchema,
-  CreatePracticeCountedShotPresetSchema,
+  StorePracticeCountedShotPresetSchema,
   UpdatePracticeCountedShotPresetSchema,
 } from '#domains/practices/validators/practice_counted_shot_preset_validator'
 import PracticeCountedShotPreset from '#models/practice_counted_shot_preset'
@@ -20,7 +19,7 @@ export default class PracticeCountedShotPresetService {
     return PracticeCountedShotPreset.findByOrFail('uid', uid)
   }
 
-  async store(payload: CreatePracticeCountedShotPresetSchema) {
+  async store(payload: StorePracticeCountedShotPresetSchema) {
     return PracticeCountedShotPreset.create(payload)
   }
 

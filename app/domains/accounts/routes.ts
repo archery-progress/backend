@@ -3,8 +3,7 @@ import { middleware } from '#start/kernel'
 
 const UsersController = () => import('#domains/accounts/controllers/users_controller')
 const RolesController = () => import('#domains/accounts/controllers/roles_controller')
-const PermissionController = () =>
-  import('#domains/accounts/controllers/permissions_controller')
+const PermissionController = () => import('#domains/accounts/controllers/permissions_controller')
 
 router
   .group(() => {

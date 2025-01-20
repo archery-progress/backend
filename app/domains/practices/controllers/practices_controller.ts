@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import {
   searchPracticeValidator,
-  createPracticeValidator,
+  storePracticeValidator,
   updatePracticeValidator,
 } from '#domains/practices/validators/practice_validator'
 import PracticeService from '#domains/practices/services/practice_service'
@@ -17,7 +17,7 @@ export default class PracticesController {
   }
 
   async store({ request }: HttpContext) {
-    const payload = await request.validateUsing(createPracticeValidator)
+    const payload = await request.validateUsing(storePracticeValidator)
     return this.practiceService.store(payload)
   }
 
