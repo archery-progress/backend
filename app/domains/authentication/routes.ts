@@ -6,6 +6,7 @@ const AuthenticationController = () =>
 
 router
   .group(() => {
+    router.get('/me', [AuthenticationController, 'me']).middleware(middleware.auth())
     router.post('/login', [AuthenticationController, 'login'])
     router.post('/logout', [AuthenticationController, 'logout']).use(middleware.auth())
     router.post('/forgot_password', [AuthenticationController, 'forgotPasswordAction'])
@@ -15,4 +16,4 @@ router
       .as('resetPassword')
     router.post('/reset_password/:uid', [AuthenticationController, 'resetPasswordAction'])
   })
-  .prefix('/authentication')
+  .prefix('v1/authentication')

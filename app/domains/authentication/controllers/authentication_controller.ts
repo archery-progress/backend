@@ -9,6 +9,12 @@ import {
 } from '#domains/authentication/validators/authentication_validator'
 
 export default class AuthenticationController {
+  async me({ auth }: HttpContext) {
+    await auth.user?.load('roles', (query) => query.preload('permissions'))
+    await auth.user?.load('permissions')
+    return auth.user
+  }
+
   async login({ request, response }: HttpContext) {
     const { email, password } = request.only(['email', 'password'])
 
