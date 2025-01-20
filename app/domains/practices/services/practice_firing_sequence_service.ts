@@ -1,9 +1,8 @@
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
-
 import PracticeFiringSequence from '#models/practice_firing_sequence'
 import {
-  CreatePracticeFiringSequenceSchema,
   SearchPracticeFiringSequenceSchema,
+  StorePracticeFiringSequenceSchema,
   UpdatePracticeFiringSequenceSchema,
 } from '#domains/practices/validators/practice_firing_sequence_validator'
 
@@ -20,13 +19,13 @@ export default class PracticeFiringSequenceService {
     return PracticeFiringSequence.findByOrFail('uid', uid)
   }
 
-  async store(payload: CreatePracticeFiringSequenceSchema) {
-    return await PracticeFiringSequence.create(payload)
+  async store(payload: StorePracticeFiringSequenceSchema) {
+    return PracticeFiringSequence.create(payload)
   }
 
   async update(payload: UpdatePracticeFiringSequenceSchema) {
     const practice = await this.findByUid(payload.uid)
-    return await practice.merge(payload).save()
+    return practice.merge(payload).save()
   }
 
   async delete(uid: string) {

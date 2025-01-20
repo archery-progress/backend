@@ -6,7 +6,7 @@ export const searchPracticeCountedShotPresetValidator = vine.compile(
   vine.object(searchComposable.getProperties())
 )
 
-export const createPracticeCountedShotPresetValidator = vine.compile(
+export const storePracticeCountedShotPresetValidator = vine.compile(
   vine.object({
     name: vine.string().minLength(2).maxLength(255),
     description: vine.string().minLength(2).maxLength(255),
@@ -33,8 +33,8 @@ export const updatePracticeCountedShotPresetValidator = vine.compile(
 export type SearchPracticeCountedShotPresetSchema = Infer<
   typeof searchPracticeCountedShotPresetValidator
 >
-export type CreatePracticeCountedShotPresetSchema = Infer<
-  typeof createPracticeCountedShotPresetValidator
+export type StorePracticeCountedShotPresetSchema = Infer<
+  typeof storePracticeCountedShotPresetValidator
 >
 export type UpdatePracticeCountedShotPresetSchema = Infer<
   typeof updatePracticeCountedShotPresetValidator

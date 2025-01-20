@@ -39,7 +39,7 @@ export default class Session extends BaseModel {
 
   static search = scope((query, search?: string) => {
     query.if(search, (builder) => {
-      const columns = ['uid', 'targetDatetime', 'order', 'annotation']
+      const columns = ['uid', 'annotation']
       columns.forEach((field) => {
         builder.orWhere(field, 'like', `%${search}%`)
       })

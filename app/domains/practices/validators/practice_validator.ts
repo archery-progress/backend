@@ -4,7 +4,7 @@ import { Infer } from '@vinejs/vine/types'
 
 export const searchPracticeValidator = vine.compile(vine.object(searchComposable.getProperties()))
 
-export const createPracticeValidator = vine.compile(
+export const storePracticeValidator = vine.compile(
   vine.object({
     userId: vine.number().optional(),
     structureId: vine.number().optional(),
@@ -35,7 +35,7 @@ export const updatePracticeValidator = vine.compile(
 )
 
 export type SearchPracticeSchema = Infer<typeof searchPracticeValidator>
-export type StorePracticeSchema = Infer<typeof createPracticeValidator>
+export type StorePracticeSchema = Infer<typeof storePracticeValidator>
 export type UpdatePracticeSchema = Infer<typeof updatePracticeValidator> & {
   uid: string
 }

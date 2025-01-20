@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 
 export const searchSessionValidator = vine.compile(vine.object(searchComposable.getProperties()))
 
-export const createSessionValidator = vine.compile(
+export const storeSessionValidator = vine.compile(
   vine.object({
     uid: vine.string().minLength(2).optional(),
     targetDatetime: vine.string().transform((date) => DateTime.fromISO(date)),
@@ -27,7 +27,7 @@ export const updateSessionValidator = vine.compile(
 )
 
 export type SearchSessionSchema = Infer<typeof searchSessionValidator>
-export type CreateSessionSchema = Infer<typeof createSessionValidator>
+export type StoreSessionSchema = Infer<typeof storeSessionValidator>
 export type UpdateSessionSchema = Infer<typeof updateSessionValidator> & {
   uid: string
 }

@@ -6,7 +6,7 @@ export const searchPracticeFiringSequenceValidator = vine.compile(
   vine.object(searchComposable.getProperties())
 )
 
-export const createPracticeFiringSequenceValidator = vine.compile(
+export const storePracticeFiringSequenceValidator = vine.compile(
   vine.object({
     practiceId: vine.number().optional(),
     results: vine.any(),
@@ -25,7 +25,7 @@ export const updatePracticeFiringSequenceValidator = vine.compile(
 )
 
 export type SearchPracticeFiringSequenceSchema = Infer<typeof searchPracticeFiringSequenceValidator>
-export type CreatePracticeFiringSequenceSchema = Infer<typeof createPracticeFiringSequenceValidator>
+export type StorePracticeFiringSequenceSchema = Infer<typeof storePracticeFiringSequenceValidator>
 export type UpdatePracticeFiringSequenceSchema = Infer<
   typeof updatePracticeFiringSequenceValidator
 > & { uid: string }

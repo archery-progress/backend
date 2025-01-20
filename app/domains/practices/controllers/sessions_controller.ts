@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import {
   searchSessionValidator,
-  createSessionValidator,
+  storeSessionValidator,
   updateSessionValidator,
 } from '#domains/practices/validators/session_validator'
 import SessionService from '#domains/practices/services/session_service'
@@ -17,13 +17,12 @@ export default class SessionsController {
   }
 
   async store({ request }: HttpContext) {
-    const payload = await request.validateUsing(createSessionValidator)
+    const payload = await request.validateUsing(storeSessionValidator)
     return this.sessionService.store(payload)
   }
 
   async update({ params, request }: HttpContext) {
     const payload = await request.validateUsing(updateSessionValidator)
-    console.log(params)
     return this.sessionService.update({
       ...payload,
       uid: params.uid,

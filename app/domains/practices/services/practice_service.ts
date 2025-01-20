@@ -1,5 +1,4 @@
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
-import { inject } from '@adonisjs/core'
 import {
   SearchPracticeSchema,
   StorePracticeSchema,
@@ -7,7 +6,6 @@ import {
 } from '#domains/practices/validators/practice_validator'
 import Practice from '#models/practice'
 
-@inject()
 export default class PracticeService {
   async paginate(payload: SearchPracticeSchema): Promise<ModelPaginatorContract<Practice>> {
     return Practice.query()
@@ -20,16 +18,16 @@ export default class PracticeService {
   }
 
   async store(payload: StorePracticeSchema) {
-    return await Practice.create(payload)
+    return Practice.create(payload)
   }
 
   async update(payload: UpdatePracticeSchema) {
     const practice = await this.findByUid(payload.uid)
-    return await practice.merge(payload).save()
+    return practice.merge(payload).save()
   }
 
   async delete(id: string) {
     const practice = await this.findByUid(id)
-    return await practice.delete()
+    return practice.delete()
   }
 }
