@@ -1,7 +1,7 @@
 import factory from '@adonisjs/lucid/factories'
-import User, { UserStatus, UserType } from '#models/user'
+import User, { UserStatus } from '#models/user'
 
-export function UserFactory(type?: UserType, status?: UserStatus) {
+export function UserFactory(status?: UserStatus) {
   return factory
     .define(User, async ({ faker }) => {
       return User.create({
@@ -9,8 +9,8 @@ export function UserFactory(type?: UserType, status?: UserStatus) {
         lastname: faker.person.lastName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
-        type: type ?? UserType.user,
         status: status ?? UserStatus.disabled,
+        permissions: 0,
       })
     })
     .build()
