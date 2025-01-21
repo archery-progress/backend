@@ -8,7 +8,6 @@ export function PracticeFactory(structure?: Structure, user?: User, session?: Se
   return factory
     .define(Practice, async ({ faker }) => {
       return Practice.create({
-        uid: faker.string.uuid(),
         structureId: structure?.id ?? undefined,
         userId: user?.id ?? undefined,
         name: faker.word.words(),

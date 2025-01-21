@@ -47,7 +47,7 @@ export default class AuthenticationController {
       const signedUrl = router
         .builder()
         .prefixUrl(env.get('APP_BASE_URL'))
-        .params({ uid: user.uid })
+        .params({ id: user.id })
         .makeSigned('resetPassword', {
           expiresIn: '1 hour',
         })

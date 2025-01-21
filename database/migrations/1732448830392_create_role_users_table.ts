@@ -6,8 +6,8 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.bigIncrements('id').primary()
-      table.string('role_id').unsigned().references('id').inTable('roles')
-      table.bigint('user_id').unsigned().references('id').inTable('users')
+      table.string('role_id').references('id').inTable('roles')
+      table.string('user_id').references('id').inTable('users')
     })
   }
 

@@ -5,10 +5,9 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
-      table.string('uid').notNullable().unique()
-      table.bigint('structure_id').unsigned().references('id').inTable('structures').notNullable()
-      table.bigint('user_id').unsigned().references('id').inTable('users').notNullable()
+      table.string('id').primary()
+      table.string('structure_id').references('id').inTable('structures').notNullable()
+      table.string('user_id').references('id').inTable('users').notNullable()
     })
   }
 

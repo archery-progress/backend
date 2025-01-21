@@ -5,13 +5,12 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
-      table.string('uid').notNullable().unique()
+      table.string('id').primary()
       table.string('name').notNullable()
       table.string('description').notNullable()
       table.string('content').notNullable()
       table.jsonb('metadata').notNullable()
-      table.bigint('structure_id').unsigned().references('id').inTable('structures').nullable()
+      table.string('structure_id').references('id').inTable('structures').nullable()
       table.jsonb('flags').notNullable()
       table.string('type').notNullable()
 

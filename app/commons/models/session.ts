@@ -1,22 +1,19 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
-import StringHelper from '@adonisjs/core/helpers/string'
+import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { randomUUID } from 'node:crypto'
 
 export default class Session extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare uid: string
+  declare userId: string
 
   @column()
-  declare userId: number | null
-
-  @column()
-  declare structureId: number | null
+  declare structureId: string
 
   @column.dateTime()
-  declare targetDatetime: DateTime
+  declare target_datetime: DateTime
 
   @column()
   declare order: Record<string, any>
@@ -24,25 +21,14 @@ export default class Session extends BaseModel {
   @column()
   declare annotation: string
 
+  @beforeCreate()
+  public static generateUuid(session: Session) {
+    session.id = randomUUID()
+  }
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
-
-  @beforeCreate()
-  public static assignUuid(session: Session) {
-    if (!session.uid) {
-      session.uid = StringHelper.generateRandom(10)
-    }
-  }
-
-  static search = scope((query, search?: string) => {
-    query.if(search, (builder) => {
-      const columns = ['uid', 'annotation']
-      columns.forEach((field) => {
-        builder.orWhere(field, 'like', `%${search}%`)
-      })
-    })
-  })
 }
