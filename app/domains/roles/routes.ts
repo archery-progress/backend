@@ -9,7 +9,7 @@ router
       .group(() => {
         router.post('/', [RolesController, 'store'])
       })
-      .prefix('/structures/:structure_id/roles')
+      .prefix('/structures/:structureId/roles')
   })
   .prefix('v1')
   .middleware(middleware.auth())
