@@ -1,14 +1,14 @@
 import { test } from '@japa/runner'
 import { Permissions } from '#app/commons/services/permission_service'
 import { UserFactory } from '#database/factories/user_factory'
-import { UserStatus, UserType } from '#models/user'
+import { UserStatus } from '#models/user'
 import { StructureFactory } from '#database/factories/structure_factory'
 import { MemberFactory } from '#database/factories/member_factory'
 import { RoleFactory } from '#database/factories/role_factory'
 
 test.group('Roles create', () => {
   test('must return 201 if the structure owner creates a role', async ({ client }) => {
-    const user = await UserFactory(UserType.staff, UserStatus.verified).make()
+    const user = await UserFactory(UserStatus.verified).make()
     const structure = await StructureFactory(user).make()
     await MemberFactory(user, structure).make()
 
@@ -25,7 +25,7 @@ test.group('Roles create', () => {
   })
 
   test('must return 201 if an administrator creates a role', async ({ client }) => {
-    const user = await UserFactory(UserType.staff, UserStatus.verified).make()
+    const user = await UserFactory(UserStatus.verified).make()
     const structure = await StructureFactory().make()
     const member = await MemberFactory(user, structure).make()
     await RoleFactory(structure, [Permissions.ADMINISTRATOR], member).make()
@@ -45,7 +45,7 @@ test.group('Roles create', () => {
   test('should return 201 if a user with the right permissions creates a role', async ({
     client,
   }) => {
-    const user = await UserFactory(UserType.staff, UserStatus.verified).make()
+    const user = await UserFactory(UserStatus.verified).make()
     const structure = await StructureFactory().make()
     const member = await MemberFactory(user, structure).make()
     await RoleFactory(structure, [Permissions.MANAGE_ROLES], member).make()
@@ -62,8 +62,10 @@ test.group('Roles create', () => {
     response.assertStatus(201)
   })
 
-  test('must return 403 if a user without the right permissions creates a role', async ({ client }) => {
-    const user = await UserFactory(UserType.staff, UserStatus.verified).make()
+  test('must return 403 if a user without the right permissions creates a role', async ({
+    client,
+  }) => {
+    const user = await UserFactory(UserStatus.verified).make()
     const structure = await StructureFactory().make()
     await MemberFactory(user, structure).make()
 
