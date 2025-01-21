@@ -4,7 +4,6 @@ import { searchComposable } from '#app/commons/validators/searchable'
 export const roleSearchValidator = vine.compile(
   vine.object({
     ...searchComposable.getProperties(),
-    forAdmin: vine.boolean().optional(),
   })
 )
 

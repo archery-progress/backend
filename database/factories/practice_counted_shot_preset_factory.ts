@@ -6,7 +6,6 @@ export function PracticeCountedShotPresetFactory(structure?: Structure) {
   return factory
     .define(PracticeCountedShotPreset, async ({ faker }) => {
       return PracticeCountedShotPreset.create({
-        uid: faker.string.uuid(),
         name: faker.lorem.word(),
         description: faker.lorem.paragraph(2),
         content: faker.lorem.paragraph(1),

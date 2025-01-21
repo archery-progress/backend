@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'node:crypto'
 
 export default class PracticeMessage extends BaseModel {
@@ -25,4 +25,13 @@ export default class PracticeMessage extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  static search = scope((query, search?: string) => {
+    query.if(search, (builder) => {
+      const columns = ['content']
+      columns.forEach((field) => {
+        builder.orWhere(field, 'like', `%${search}%`)
+      })
+    })
+  })
 }

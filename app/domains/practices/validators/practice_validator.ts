@@ -6,9 +6,9 @@ export const searchPracticeValidator = vine.compile(vine.object(searchComposable
 
 export const storePracticeValidator = vine.compile(
   vine.object({
-    userId: vine.number().optional(),
-    structureId: vine.number().optional(),
-    sessionId: vine.number().optional(),
+    userId: vine.string().optional(),
+    structureId: vine.string().optional(),
+    sessionId: vine.string().optional(),
     name: vine.string().minLength(2).maxLength(255),
     description: vine.string().minLength(2).maxLength(255),
     content: vine.string().minLength(2).maxLength(255),
@@ -21,9 +21,9 @@ export const storePracticeValidator = vine.compile(
 
 export const updatePracticeValidator = vine.compile(
   vine.object({
-    userId: vine.number().optional(),
-    structureId: vine.number().optional(),
-    sessionId: vine.number().optional(),
+    userId: vine.string().optional(),
+    structureId: vine.string().optional(),
+    sessionId: vine.string().optional(),
     name: vine.string().minLength(2).maxLength(255).optional(),
     description: vine.string().minLength(2).maxLength(255).optional(),
     content: vine.string().minLength(2).maxLength(255).optional(),

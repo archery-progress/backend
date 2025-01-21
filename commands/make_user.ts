@@ -2,6 +2,7 @@ import { BaseCommand } from '@adonisjs/core/ace'
 import type { CommandOptions } from '@adonisjs/core/types/ace'
 import UserService from '#domains/accounts/services/user_service'
 import { inject } from '@adonisjs/core'
+import { UserStatus, UserType } from '#models/user'
 
 export default class MakeUser extends BaseCommand {
   static commandName = 'make:user'
@@ -27,6 +28,8 @@ export default class MakeUser extends BaseCommand {
         lastname,
         email,
         password,
+        type: UserType.staff,
+        status: UserStatus.verified,
       })
 
       this.logger.success('Successfully created user')

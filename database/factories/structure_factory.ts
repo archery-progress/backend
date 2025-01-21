@@ -6,7 +6,6 @@ export function StructureFactory(owner?: User) {
   return factory
     .define(Structure, async ({ faker }) => {
       return Structure.create({
-        uid: faker.string.uuid(),
         ownerId: owner?.id ?? undefined,
         name: faker.company.name(),
         siret: faker.string.numeric(14),

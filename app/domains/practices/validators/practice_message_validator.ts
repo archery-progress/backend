@@ -8,17 +8,17 @@ export const searchPracticeMessageValidator = vine.compile(
 
 export const storePracticeMessageValidator = vine.compile(
   vine.object({
-    practiceId: vine.number().optional(),
+    practiceId: vine.string().optional(),
     content: vine.string().minLength(2).maxLength(255),
-    userId: vine.number(),
+    userId: vine.string(),
   })
 )
 
 export const updatePracticeMessageValidator = vine.compile(
   vine.object({
-    practiceId: vine.number().optional(),
+    practiceId: vine.string().optional(),
     content: vine.string().minLength(2).maxLength(255).optional(),
-    userId: vine.number(),
+    userId: vine.string(),
   })
 )
 
