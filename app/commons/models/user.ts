@@ -6,10 +6,9 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import Role from '#models/role'
-import Permission from '#models/permission'
-import StringHelper from '@adonisjs/core/helpers/string'
 import Structure from '#models/structure'
 import { Sharp } from 'sharp'
+import { randomUUID } from 'node:crypto'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -18,10 +17,7 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 
 export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
-  declare id: number
-
-  @column()
-  declare uid: string
+  declare id: string
 
   @column()
   declare firstname: string
@@ -54,9 +50,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
 
-  @manyToMany(() => Permission)
-  declare permissions: ManyToMany<typeof Permission>
-
   @manyToMany(() => Role)
   declare roles: ManyToMany<typeof Role>
 
@@ -65,14 +58,14 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @beforeCreate()
   public static assignUuid(user: User) {
-    if (!user.uid) {
-      user.uid = StringHelper.generateRandom(10)
+    if (!user.id) {
+      user.id = randomUUID()
     }
   }
 
   static search = scope((query, search?: string, type?: UserType, status?: UserStatus) => {
     query.if(search, (builder) => {
-      const columns = ['firstname', 'lastname', 'email', 'uid']
+      const columns = ['firstname', 'lastname', 'email', 'id']
       columns.forEach((field) => {
         builder.orWhere(field, 'like', `%${search}%`)
       })

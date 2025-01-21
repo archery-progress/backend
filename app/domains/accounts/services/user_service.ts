@@ -5,7 +5,6 @@ import {
   UpdateUserSchema,
   UserSearchSchema,
 } from '#domains/accounts/validators/user_validator'
-import StringHelper from '@adonisjs/core/helpers/string'
 import AssetsService from '#app/commons/services/assets_service'
 import { inject } from '@adonisjs/core'
 
@@ -25,23 +24,18 @@ export default class UserService {
   }
 
   async store(payload: StoreUserSchema) {
-    const uid = StringHelper.generateRandom(10)
-
     const user = await User.create({
       ...payload,
-      uid,
-      avatar: payload.avatar
-        ? await this.assetsService.upload({
-            location: `users/${uid}/avatar`,
-            file: payload.avatar,
-            transformer: User.transformAvatar,
-          })
-        : null,
+      avatar: null,
+      // avatar: payload.avatar
+      //   ? await this.assetsService.upload({
+      //       location: `users/${}/avatar`,
+      //       file: payload.avatar,
+      //       transformer: User.transformAvatar,
+      //     })
+      //   : null,
     })
 
-    if (payload.permissions) {
-      await user.related('permissions').sync(payload.permissions)
-    }
 
     if (payload.roles) {
       await user.related('roles').sync(payload.roles)
@@ -58,17 +52,13 @@ export default class UserService {
         ...payload,
         avatar: payload.avatar
           ? await this.assetsService.upload({
-              location: `users/${user.uid}/avatar`,
+              location: `users/${user.id}/avatar`,
               file: payload.avatar,
               transformer: User.transformAvatar,
             })
           : user.avatar,
       })
       .save()
-
-    if (payload.permissions) {
-      await user.related('permissions').sync(payload.permissions)
-    }
 
     if (payload.roles) {
       await user.related('roles').sync(payload.roles)
@@ -80,7 +70,6 @@ export default class UserService {
   async delete(uid: string) {
     const user = await this.findByUid(uid)
 
-    await user.related('permissions').detach()
     await user.related('roles').detach()
   }
 }

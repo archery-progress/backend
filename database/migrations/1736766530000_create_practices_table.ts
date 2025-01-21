@@ -5,17 +5,16 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
-      table.string('uid').notNullable()
-      table.bigint('structure_id').unsigned().references('id').inTable('structures').nullable()
-      table.bigint('user_id').unsigned().references('id').inTable('users').nullable()
+      table.string('id').primary()
+      table.string('structure_id').references('id').inTable('structures').notNullable()
+      table.string('user_id').references('id').inTable('users').notNullable()
       table.string('name').notNullable()
       table.string('description').notNullable()
       table.string('content').notNullable()
       table.jsonb('metadata').notNullable()
       table.string('status').notNullable()
       table.jsonb('results').notNullable()
-      table.bigint('session_id').unsigned().references('id').inTable('sessions').nullable()
+      table.string('session_id').references('id').inTable('sessions').notNullable()
       table.string('type').notNullable()
 
       table.timestamp('created_at')

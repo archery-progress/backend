@@ -9,9 +9,6 @@ export default class Role extends BaseModel {
   declare id: string
 
   @column()
-  declare uid: string
-
-  @column()
   declare name: string
 
   @column()
