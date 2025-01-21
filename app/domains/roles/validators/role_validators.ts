@@ -8,4 +8,6 @@ export const createRoleValidator = vine.compile(
   })
 )
 
-export type CreateRoleSchema = Infer<typeof createRoleValidator>
+export type CreateRoleSchema = Infer<typeof createRoleValidator> & {
+  structureId: string
+}
