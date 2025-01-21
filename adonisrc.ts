@@ -53,6 +53,7 @@ export default defineConfig({
     () => import('#start/kernel'),
     () => import('#domains/authentication/routes'),
     () => import('#domains/accounts/routes'),
+    () => import('#domains/roles/routes'),
     () => import('#domains/practices/routes'),
   ],
 
