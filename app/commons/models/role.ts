@@ -1,14 +1,19 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm'
 import User from '#models/user'
-import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'node:crypto'
 import { roleSearchValidator } from '#domains/accounts/validators/roles_validator'
 import { Infer } from '@vinejs/vine/types'
+import Structure from '#models/structure'
+import Member from '#models/member'
 
 export default class Role extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
+
+  @column()
+  declare structureId: string
 
   @column()
   declare name: string
@@ -18,6 +23,12 @@ export default class Role extends BaseModel {
 
   @manyToMany(() => User)
   declare users: ManyToMany<typeof User>
+
+  @belongsTo(() => Structure)
+  declare structure: BelongsTo<typeof Structure>
+
+  @manyToMany(() => Member)
+  declare members: ManyToMany<typeof Member>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
