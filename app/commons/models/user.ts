@@ -1,15 +1,24 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { afterFind, BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
+import {
+  afterFind,
+  BaseModel,
+  beforeCreate,
+  column,
+  hasMany,
+  manyToMany,
+  scope,
+} from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Role from '#models/role'
 import Structure from '#models/structure'
 import { Sharp } from 'sharp'
 import { randomUUID } from 'node:crypto'
 import drive from '@adonisjs/drive/services/main'
+import Member from '#models/member'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -54,8 +63,13 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @manyToMany(() => Role)
   declare roles: ManyToMany<typeof Role>
 
-  @manyToMany(() => Structure)
-  declare structures: ManyToMany<typeof Structure>
+  @hasMany(() => Structure, {
+    foreignKey: 'ownerId',
+  })
+  declare structures: HasMany<typeof Structure>
+
+  @hasMany(() => Member)
+  declare members: HasMany<typeof Member>
 
   @beforeCreate()
   public static assignUuid(user: User) {

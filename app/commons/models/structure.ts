@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
-import { afterFind, BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
+import { afterFind, BaseModel, beforeCreate, belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm'
 import drive from '@adonisjs/drive/services/main'
 import { Sharp } from 'sharp'
 import User from '#models/user'
-import { type ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'node:crypto'
 
 export default class Structure extends BaseModel {
@@ -24,6 +24,9 @@ export default class Structure extends BaseModel {
 
   @column()
   declare logo: string | undefined
+
+  @belongsTo(() => User)
+  declare owner: BelongsTo<typeof User>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
