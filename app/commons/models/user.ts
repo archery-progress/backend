@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
+import { afterFind, BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
@@ -9,6 +9,7 @@ import Role from '#models/role'
 import Structure from '#models/structure'
 import { Sharp } from 'sharp'
 import { randomUUID } from 'node:crypto'
+import drive from '@adonisjs/drive/services/main'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -32,7 +33,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare password: string
 
   @column()
-  declare type: UserType
+  declare permissions: number
 
   @column()
   declare status: UserStatus
@@ -63,27 +64,27 @@ export default class User extends compose(BaseModel, AuthFinder) {
     }
   }
 
-  static search = scope((query, search?: string, type?: UserType, status?: UserStatus) => {
-    query.if(search, (builder) => {
-      const columns = ['firstname', 'lastname', 'email', 'id']
-      columns.forEach((field) => {
-        builder.orWhere(field, 'like', `%${search}%`)
-      })
-    })
+  @afterFind()
+  static async resolveSignedUrl(user: User) {
+    if (user.avatar) {
+      user.avatar = await drive.use().getSignedUrl(user.avatar)
+    }
+  }
 
-    query.if(type, (builder) => builder.andWhere('type', type!))
-    query.if(status !== undefined, (builder) => builder.andWhere('status', status!))
+  static search = scope((query, search?: string, status?: UserStatus) => {
+    query
+      .if(search, (builder) => {
+        const columns = ['firstname', 'lastname', 'email', 'id']
+        columns.forEach((field) => {
+          builder.orWhere(field, 'like', `%${search}%`)
+        })
+      })
+      .if(status !== undefined, (builder) => builder.andWhere('status', status!))
   })
 
   static transformAvatar(sharp: Sharp) {
     return sharp.resize(256, 256)
   }
-}
-
-export enum UserType {
-  user,
-  practitioner,
-  staff,
 }
 
 export enum UserStatus {

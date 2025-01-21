@@ -19,6 +19,10 @@ export default class UsersController {
     return this.userService.paginate(payload)
   }
 
+  async show({ params }: HttpContext) {
+    return this.userService.findById(params.id)
+  }
+
   async deleteToken({ response, params }: HttpContext) {
     const user = await User.query().where('uid', params.uid).firstOrFail()
     await db.query().from('auth_access_tokens').where('tokenable_id', user.id).delete()
@@ -33,10 +37,10 @@ export default class UsersController {
 
   async update({ request, params }: HttpContext) {
     const payload = await request.validateUsing(updateUserValidator)
-    return this.userService.update({ ...payload, uid: params.uid })
+    return this.userService.update({ ...payload, id: params.id })
   }
 
   async delete({ params }: HttpContext) {
-    await this.userService.delete(params.uid)
+    await this.userService.delete(params.id)
   }
 }

@@ -10,8 +10,7 @@ import {
 
 export default class AuthenticationController {
   async me({ auth }: HttpContext) {
-    await auth.user?.load('roles', (query) => query.preload('permissions'))
-    await auth.user?.load('permissions')
+    await auth.user?.load('roles')
     return auth.user
   }
 

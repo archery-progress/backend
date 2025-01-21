@@ -8,10 +8,11 @@ router
     router
       .group(() => {
         router.get('', [UsersController, 'index']).as('index')
-        router.delete('/:uid/delete-token', [UsersController, 'deleteToken']).as('deleteToken')
+        router.get(':id', [UsersController, 'show']).as('show')
+        router.delete('/:id/delete-token', [UsersController, 'deleteToken']).as('deleteToken')
         router.post('', [UsersController, 'store']).as('store')
-        router.put(':uid', [UsersController, 'update']).as('update')
-        router.delete(':uid', [UsersController, 'delete']).as('delete')
+        router.put(':id', [UsersController, 'update']).as('update')
+        router.delete(':id', [UsersController, 'delete']).as('delete')
       })
       .prefix('/users')
       .as('users')

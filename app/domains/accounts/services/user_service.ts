@@ -1,5 +1,5 @@
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
-import User from '#models/user'
+import User, { UserStatus } from '#models/user'
 import {
   StoreUserSchema,
   UpdateUserSchema,
@@ -14,38 +14,24 @@ export default class UserService {
 
   async paginate(payload: UserSearchSchema): Promise<ModelPaginatorContract<User>> {
     return User.query()
-      .withScopes((scopes) => scopes.search(payload.search, payload.type, payload.status))
+      .withScopes((scopes) => scopes.search(payload.search, payload.status))
       .preload('roles')
       .paginate(payload.page ?? 1, payload.limit ?? 20)
   }
 
-  async findByUid(uid: string) {
-    return User.findByOrFail('uid', uid)
+  async findById(id: string) {
+    return User.findOrFail(id)
   }
 
   async store(payload: StoreUserSchema) {
-    const user = await User.create({
+    return User.create({
       ...payload,
-      avatar: null,
-      // avatar: payload.avatar
-      //   ? await this.assetsService.upload({
-      //       location: `users/${}/avatar`,
-      //       file: payload.avatar,
-      //       transformer: User.transformAvatar,
-      //     })
-      //   : null,
+      status: UserStatus.pending,
     })
-
-
-    if (payload.roles) {
-      await user.related('roles').sync(payload.roles)
-    }
-
-    return user
   }
 
   async update(payload: UpdateUserSchema) {
-    const user = await this.findByUid(payload.uid)
+    const user = await this.findById(payload.id)
 
     await user
       .merge({
@@ -68,8 +54,7 @@ export default class UserService {
   }
 
   async delete(uid: string) {
-    const user = await this.findByUid(uid)
-
-    await user.related('roles').detach()
+    const user = await this.findById(uid)
+    await user.delete()
   }
 }
