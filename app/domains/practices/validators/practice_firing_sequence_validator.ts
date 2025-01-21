@@ -8,7 +8,7 @@ export const searchPracticeFiringSequenceValidator = vine.compile(
 
 export const storePracticeFiringSequenceValidator = vine.compile(
   vine.object({
-    practiceId: vine.number().optional(),
+    practiceId: vine.string().optional(),
     results: vine.any(),
     annotation: vine.string().minLength(2).maxLength(255),
     total: vine.number().min(0),
@@ -17,7 +17,7 @@ export const storePracticeFiringSequenceValidator = vine.compile(
 
 export const updatePracticeFiringSequenceValidator = vine.compile(
   vine.object({
-    practiceId: vine.number().optional(),
+    practiceId: vine.string().optional(),
     results: vine.any().optional(),
     annotation: vine.string().minLength(2).maxLength(255).optional(),
     total: vine.number().min(0).optional(),

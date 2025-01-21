@@ -1,8 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
 import User from '#models/user'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'node:crypto'
+import { roleSearchValidator } from '#domains/accounts/validators/roles_validator'
+import { Infer } from '@vinejs/vine/types'
 
 export default class Role extends BaseModel {
   @column({ isPrimary: true })
@@ -28,20 +30,12 @@ export default class Role extends BaseModel {
     role.id = randomUUID()
   }
 
-  // static search = scope(
-  //   (
-  //     query,
-  //     search: Infer<typeof roleSearchValidator>['search'],
-  //     forAdmin: Infer<typeof roleSearchValidator>['forAdmin']
-  //   ) => {
-  //     query.if(search, (builder) => {
-  //       const columns = ['uid', 'name']
-  //       columns.forEach((field) => {
-  //         builder.orWhere(field, 'like', `%${search}%`)
-  //       })
-  //     })
-  //
-  //     query.if(forAdmin !== undefined, (builder) => builder.andWhere('for_admin', forAdmin!))
-  //   }
-  // )
+  static search = scope((query, search: Infer<typeof roleSearchValidator>['search']) => {
+    query.if(search, (builder) => {
+      const columns = ['id', 'name']
+      columns.forEach((field) => {
+        builder.orWhere(field, 'like', `%${search}%`)
+      })
+    })
+  })
 }

@@ -14,7 +14,7 @@ export const storePracticeCountedShotPresetValidator = vine.compile(
     metadata: vine.any(),
     flags: vine.any(),
     type: vine.string().minLength(2).maxLength(255),
-    structureId: vine.number().optional(),
+    structureId: vine.string().optional(),
   })
 )
 
@@ -26,7 +26,7 @@ export const updatePracticeCountedShotPresetValidator = vine.compile(
     metadata: vine.any().optional(),
     flags: vine.any().optional(),
     type: vine.string().minLength(2).maxLength(255).optional(),
-    structureId: vine.number().optional(),
+    structureId: vine.string().optional(),
   })
 )
 
