@@ -14,7 +14,7 @@ export default class extends BaseSchema {
       table.jsonb('metadata').notNullable()
       table.string('status').notNullable()
       table.jsonb('results').notNullable()
-      table.string('session_id').references('id').inTable('sessions').notNullable()
+      table.string('session_id').references('id').inTable('sessions').nullable()
       table.string('type').notNullable()
 
       table.timestamp('created_at')
