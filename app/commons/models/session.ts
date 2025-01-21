@@ -13,7 +13,7 @@ export default class Session extends BaseModel {
   declare structureId: string
 
   @column.dateTime()
-  declare target_datetime: DateTime
+  declare targetDatetime: DateTime
 
   @column()
   declare order: Record<string, any>
