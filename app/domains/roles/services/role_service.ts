@@ -9,4 +9,17 @@ export default class RoleService {
       structureId,
     })
   }
+
+  async findByStructureId(structureId: string): Promise<Role[]> {
+    return Role.query().where('structure_id', structureId)
+  }
+
+  async findById(id: string): Promise<Role> {
+    return Role.findOrFail(id)
+  }
+
+  async deleteById(id: string): Promise<void> {
+    const role = await this.findById(id)
+    await role.delete()
+  }
 }
