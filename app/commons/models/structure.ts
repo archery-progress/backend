@@ -1,5 +1,13 @@
 import { DateTime } from 'luxon'
-import { afterFind, BaseModel, beforeCreate, belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm'
+import {
+  afterFind,
+  BaseModel,
+  beforeCreate,
+  belongsTo,
+  column,
+  manyToMany,
+  scope,
+} from '@adonisjs/lucid/orm'
 import drive from '@adonisjs/drive/services/main'
 import { Sharp } from 'sharp'
 import User from '#models/user'
