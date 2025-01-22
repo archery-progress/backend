@@ -11,7 +11,7 @@ export function StructureFactory(owner?: User) {
         name: faker.company.name(),
         siret: faker.string.numeric(14),
         isDeactivated: faker.datatype.boolean(),
-        logo: faker.internet.url(),
+        //logo: faker.internet.url(),
       })
     })
     .build()
