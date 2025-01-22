@@ -17,10 +17,7 @@ export default class Member extends BaseModel {
   declare structureId: string
 
   @column()
-  declare permissions: string
-
-  @column()
-  declare isAttached: boolean
+  declare permissions: number
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
