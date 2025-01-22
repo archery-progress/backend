@@ -22,7 +22,7 @@ test.group('Roles create', () => {
       .send()
 
     response.assertStatus(201)
-  })
+  }).tags(['roles', 'create'])
 
   test('must return 201 if an administrator creates a role', async ({ client }) => {
     const user = await UserFactory(UserStatus.verified).make()
@@ -40,7 +40,7 @@ test.group('Roles create', () => {
       .send()
 
     response.assertStatus(201)
-  })
+  }).tags(['roles', 'create'])
 
   test('should return 201 if a user with the right permissions creates a role', async ({
     client,
@@ -60,7 +60,7 @@ test.group('Roles create', () => {
       .send()
 
     response.assertStatus(201)
-  })
+  }).tags(['roles', 'create'])
 
   test('must return 403 if a user without the right permissions creates a role', async ({
     client,
@@ -79,11 +79,11 @@ test.group('Roles create', () => {
       .send()
 
     response.assertStatus(403)
-  })
+  }).tags(['roles', 'create'])
 
   test('must return 401 if an unauthenticated user creates a role', async ({ client }) => {
     const response = await client.post(`/v1/structures/1/roles`).json({}).send()
 
     response.assertStatus(401)
-  })
+  }).tags(['roles', 'create'])
 })
