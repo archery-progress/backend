@@ -7,7 +7,12 @@ router
   .group(() => {
     router
       .group(() => {
+        router.get('/', [RolesController, 'index'])
         router.post('/', [RolesController, 'store'])
+        router.get('/:id', [RolesController, 'show'])
+
+        router.put('/:id', [RolesController, 'update'])
+        router.delete('/:id', [RolesController, 'delete'])
       })
       .prefix('/structures/:structureId/roles')
   })
