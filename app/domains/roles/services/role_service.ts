@@ -14,6 +14,10 @@ export default class RoleService {
     return Role.query().where('structure_id', structureId).paginate(1, 50)
   }
 
+  async findByRoleIdsAndStructureId(roleIds: string[], structureId: string): Promise<Role[]> {
+    return Role.query().whereIn('id', roleIds).andWhere('structure_id', structureId)
+  }
+
   async updateById({ roleId, name, permissions }: UpdateRoleSchema): Promise<Role> {
     const role = await this.findById(roleId)
 
