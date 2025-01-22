@@ -4,6 +4,7 @@ import { HttpContext } from '@adonisjs/core/http'
 import {
   createMemberValidator,
   getMembersValidator,
+  updateMemberValidator,
 } from '#domains/members/validators/member_validator'
 import MemberPolicy from '#domains/members/policies/member_policy'
 
@@ -30,7 +31,18 @@ export default class MembersController {
     return response.created(member)
   }
 
-  async update({}: HttpContext) {}
+  async update({ params, request, bouncer }: HttpContext) {
+    const { memberId, structureId } = params
+    await bouncer.with(MemberPolicy).authorize('update', structureId, memberId)
 
-  async delete({}: HttpContext) {}
+    const data = await request.validateUsing(updateMemberValidator)
+    return this.memberService.updateById({ ...data, memberId })
+  }
+
+  async delete({ params, bouncer }: HttpContext) {
+    const { memberId, structureId } = params
+    await bouncer.with(MemberPolicy).authorize('delete', structureId, memberId)
+
+    return this.memberService.deleteById(memberId)
+  }
 }

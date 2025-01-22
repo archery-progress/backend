@@ -1,8 +1,16 @@
 import Structure from '#app/commons/models/structure'
 import Member from '#models/member'
-import { CreateMemberSchema, GetMembersSchema } from '#domains/members/validators/member_validator'
+import {
+  CreateMemberSchema,
+  GetMembersSchema,
+  UpdateMemberSchema,
+} from '#domains/members/validators/member_validator'
+import { inject } from '@adonisjs/core'
+import RoleService from '#app/domains/roles/services/role_service'
 
+@inject()
 export default class MemberService {
+  constructor(protected roleService: RoleService) {}
   async findFromStructure(structureId: string, userId: string): Promise<Member> {
     return Member.query()
       .where('structure_id', structureId)
@@ -33,5 +41,20 @@ export default class MemberService {
       userId,
       permissions: 0,
     })
+  }
+
+  async updateById({ memberId, permissions }: UpdateMemberSchema) {
+    const member = await this.findById(memberId)
+
+    await member
+      .merge({
+        permissions,
+      })
+      .save()
+  }
+
+  async deleteById(memberId: string) {
+    const member = await this.findById(memberId)
+    await member.delete()
   }
 }

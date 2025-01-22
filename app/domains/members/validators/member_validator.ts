@@ -14,10 +14,20 @@ export const createMemberValidator = vine.compile(
   })
 )
 
+export const updateMemberValidator = vine.compile(
+  vine.object({
+    permissions: vine.number().optional(),
+  })
+)
+
 export type GetMembersSchema = Infer<typeof getMembersValidator> & {
   structureId: string
 }
 
 export type CreateMemberSchema = Infer<typeof createMemberValidator> & {
   structureId: string
+}
+
+export type UpdateMemberSchema = Infer<typeof updateMemberValidator> & {
+  memberId: string
 }
