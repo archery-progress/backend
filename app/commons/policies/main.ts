@@ -14,4 +14,5 @@
 
 export const policies = {
   RolePolicy: () => import('#domains/roles/policies/role_policy'),
+  MemberPolicy: () => import('#domains/members/policies/member_policy'),
 }
