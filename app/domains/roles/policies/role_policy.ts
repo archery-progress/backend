@@ -1,6 +1,5 @@
 import { BasePolicy } from '@adonisjs/bouncer'
 import User from '#models/user'
-import logger from '@adonisjs/core/services/logger'
 import { inject } from '@adonisjs/core'
 import { Permissions, PermissionService } from '#app/commons/services/permission_service'
 
@@ -34,7 +33,10 @@ export default class RolePolicy extends BasePolicy {
   }
 
   async view(user: User, structureId: string) {
-    return this.permissionService.hasSomePermissions(user.id, structureId, [Permissions.VIEW_ROLES])
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.VIEW_ROLES,
+      Permissions.MANAGE_ROLES,
+    ])
   }
 
   async delete(user: User, structureId: string) {
