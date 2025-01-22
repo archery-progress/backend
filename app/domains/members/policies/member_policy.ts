@@ -2,10 +2,16 @@ import User from '#app/commons/models/user'
 import { PermissionService, Permissions } from '#app/commons/services/permission_service'
 import { BasePolicy } from '@adonisjs/bouncer'
 import { inject } from '@adonisjs/core'
+import MemberService from '#domains/members/services/member_service'
+import StructureService from '#domains/structures/services/structure_service'
 
 @inject()
 export default class MemberPolicy extends BasePolicy {
-  constructor(protected permissionService: PermissionService) {
+  constructor(
+    protected permissionService: PermissionService,
+    protected memberService: MemberService,
+    protected structureService: StructureService
+  ) {
     super()
   }
 
@@ -39,5 +45,31 @@ export default class MemberPolicy extends BasePolicy {
     return isPresentInStructure
   }
 
-  async update(user: User, structureId: string)
+  async update(user: User, structureId: string, memberId: string) {
+    const member = await this.memberService.findById(memberId)
+    const structure = await this.structureService.findById(structureId)
+
+    // The owner of the structure cannot be updated by another user
+    if (structure.ownerId === member.userId && user.id !== member.userId) {
+      return false
+    }
+
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.MANAGE_MEMBERS,
+    ])
+  }
+
+  async delete(user: User, structureId: string, memberId: string) {
+    const member = await this.memberService.findById(memberId)
+    const structure = await this.structureService.findById(structureId)
+
+    // The owner of the structure cannot be deleted by another user
+    if (structure.ownerId === member.userId && user.id !== member.userId) {
+      return false
+    }
+
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.MANAGE_MEMBERS,
+    ])
+  }
 }
