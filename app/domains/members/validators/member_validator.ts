@@ -8,6 +8,16 @@ export const getMembersValidator = vine.compile(
   })
 )
 
+export const createMemberValidator = vine.compile(
+  vine.object({
+    userId: vine.string().trim().escape(),
+  })
+)
+
 export type GetMembersSchema = Infer<typeof getMembersValidator> & {
+  structureId: string
+}
+
+export type CreateMemberSchema = Infer<typeof createMemberValidator> & {
   structureId: string
 }
