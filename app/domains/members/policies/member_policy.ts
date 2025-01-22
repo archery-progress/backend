@@ -1,7 +1,9 @@
 import User from '#app/commons/models/user'
 import { PermissionService, Permissions } from '#app/commons/services/permission_service'
 import { BasePolicy } from '@adonisjs/bouncer'
+import { inject } from '@adonisjs/core'
 
+@inject()
 export default class MemberPolicy extends BasePolicy {
   constructor(protected permissionService: PermissionService) {
     super()
