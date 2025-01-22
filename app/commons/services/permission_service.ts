@@ -53,7 +53,9 @@ export class PermissionService {
     structureId: string,
     permissions: Permissions[]
   ): Promise<boolean> {
-    const bitfield = await this.getUserPermissionsForStructure(userId, structureId)
+    const bitfield = await this.getUserPermissionsForStructure(userId, structureId).catch(() => {
+      return 0
+    })
     return permissions.some((permission) => (bitfield & permission) === permission)
   }
 }
