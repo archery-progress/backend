@@ -11,21 +11,21 @@ export default class RolesController {
 
   async index({ params, bouncer }: HttpContext) {
     const { structureId } = params
-    await bouncer.with(RolePolicy).authorize('view' as never, structureId)
+    await bouncer.with(RolePolicy).authorize('view', structureId)
 
     return this.roleService.findByStructureId(structureId)
   }
 
   async show({ params, bouncer }: HttpContext) {
     const { id, structureId } = params
-    await bouncer.with(RolePolicy).authorize('view' as never, structureId)
+    await bouncer.with(RolePolicy).authorize('view', structureId)
 
     return this.roleService.findById(id)
   }
 
   async store({ request, response, params, bouncer }: HttpContext) {
     const { structureId } = params
-    await bouncer.with(RolePolicy).authorize('create' as never, structureId)
+    await bouncer.with(RolePolicy).authorize('create', structureId)
     const data = await request.validateUsing(createRoleValidator)
 
     const role = await this.roleService.create({
@@ -39,7 +39,7 @@ export default class RolesController {
 
   async update({ request, params, bouncer }: HttpContext) {
     const { id, structureId } = params
-    await bouncer.with(RolePolicy).authorize('update' as never, structureId)
+    await bouncer.with(RolePolicy).authorize('update', structureId)
     const data = await request.validateUsing(updateRoleValidator)
 
     return this.roleService.updateById({ ...data, roleId: id })
@@ -47,7 +47,7 @@ export default class RolesController {
 
   async delete({ params, bouncer }: HttpContext) {
     const { id, structureId } = params
-    await bouncer.with(RolePolicy).authorize('delete' as never, structureId)
+    await bouncer.with(RolePolicy).authorize('delete', structureId)
 
     return this.roleService.deleteById(id)
   }

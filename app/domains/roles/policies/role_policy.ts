@@ -39,6 +39,12 @@ export default class RolePolicy extends BasePolicy {
     ])
   }
 
+  async update(user: User, structureId: string) {
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.MANAGE_ROLES,
+    ])
+  }
+
   async delete(user: User, structureId: string) {
     return this.permissionService.hasSomePermissions(user.id, structureId, [
       Permissions.MANAGE_ROLES,
