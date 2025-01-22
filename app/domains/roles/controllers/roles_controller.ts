@@ -9,8 +9,19 @@ import RolePolicy from '#domains/roles/policies/role_policy'
 export default class RolesController {
   constructor(protected roleService: RoleService) {}
 
-  async index({}: HttpContext) {}
-  async show({}: HttpContext) {}
+  async index({ params, bouncer }: HttpContext) {
+    const { structureId } = params
+    await bouncer.with(RolePolicy).authorize('view' as never, structureId)
+
+    return this.roleService.findByStructureId(structureId)
+  }
+
+  async show({ params, bouncer }: HttpContext) {
+    const { id, structureId } = params
+    await bouncer.with(RolePolicy).authorize('view' as never, structureId)
+
+    return this.roleService.findById(id)
+  }
 
   async store({ request, response, params, bouncer }: HttpContext) {
     const { structureId } = params
@@ -25,6 +36,12 @@ export default class RolesController {
 
     return response.created(role)
   }
+
   async update({}: HttpContext) {}
-  async delete({}: HttpContext) {}
+  async delete({ params, bouncer }: HttpContext) {
+    const { id, structureId } = params
+    await bouncer.with(RolePolicy).authorize('delete' as never, structureId)
+
+    return this.roleService.deleteById(id)
+  }
 }
