@@ -57,6 +57,7 @@ export default defineConfig({
     () => import('#domains/accounts/routes'),
     () => import('#domains/roles/routes'),
     () => import('#domains/practices/routes'),
+    () => import('#domains/members/routes'),
   ],
 
   /*
