@@ -7,8 +7,8 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.bigIncrements('id').primary()
 
-      table.string('member_id').references('id').inTable('members')
-      table.string('role_id').references('id').inTable('roles')
+      table.string('member_id').references('id').inTable('members').onDelete('CASCADE')
+      table.string('role_id').references('id').inTable('roles').onDelete('CASCADE')
 
       table.unique(['member_id', 'role_id'])
 
