@@ -9,6 +9,9 @@ export default class extends BaseSchema {
 
       table.string('user_id').references('id').inTable('users').notNullable()
       table.string('structure_id').references('id').inTable('structures').notNullable()
+      table.integer('permissions').notNullable()
+
+      table.string('member_id').references('id').inTable('members').nullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
