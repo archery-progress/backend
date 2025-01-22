@@ -11,7 +11,7 @@ export default class RoleService {
   }
 
   async findByStructureId(structureId: string): Promise<Role[]> {
-    return Role.query().where('structure_id', structureId)
+    return Role.query().where('structure_id', structureId).paginate(1, 50)
   }
 
   async updateById({ roleId, name, permissions }: UpdateRoleSchema): Promise<Role> {
