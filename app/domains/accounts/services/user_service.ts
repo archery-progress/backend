@@ -15,7 +15,6 @@ export default class UserService {
   async paginate(payload: UserSearchSchema): Promise<ModelPaginatorContract<User>> {
     return User.query()
       .withScopes((scopes) => scopes.search(payload.search, payload.status))
-      .preload('roles')
       .paginate(payload.page ?? 1, payload.limit ?? 20)
   }
 

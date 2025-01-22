@@ -1,19 +1,10 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import {
-  afterFind,
-  BaseModel,
-  beforeCreate,
-  column,
-  hasMany,
-  manyToMany,
-  scope,
-} from '@adonisjs/lucid/orm'
+import { afterFind, BaseModel, beforeCreate, column, hasMany, scope } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
-import Role from '#models/role'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Structure from '#models/structure'
 import { Sharp } from 'sharp'
 import { randomUUID } from 'node:crypto'
@@ -59,9 +50,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare currentAccessToken?: AccessToken
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
-
-  @manyToMany(() => Role)
-  declare roles: ManyToMany<typeof Role>
 
   @hasMany(() => Structure, {
     foreignKey: 'ownerId',
