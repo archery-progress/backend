@@ -6,7 +6,7 @@ import { UserFactory } from '#database/factories/user_factory'
 import { test } from '@japa/runner'
 
 test.group('Members list', () => {
-  test("doit retourner la liste des membres si l'utilisateur est présent dans la structure", async ({
+  test('must return the list of members if the user is present in the structure', async ({
     client,
     assert,
   }) => {
@@ -20,7 +20,7 @@ test.group('Members list', () => {
     assert.isEmpty(response.body().data.filter((member: Member) => member.userId === user.id))
   }).tags(['members', 'index'])
 
-  test("doit retourner une erreur (403) si l'utilisateur n'est pas présent dans la structure", async ({
+  test('must return an error (403) if the user is not present in the structure', async ({
     client,
   }) => {
     const user = await UserFactory(UserStatus.verified).make()
@@ -31,9 +31,7 @@ test.group('Members list', () => {
     response.assertStatus(403)
   }).tags(['members', 'index'])
 
-  test("doit retourner une erreur (401) si l'utilisateur n'est pas authentifié", async ({
-    client,
-  }) => {
+  test('must return an error (401) if the user is not authenticated', async ({ client }) => {
     const response = await client.get(`/v1/structures/1/members`).send()
 
     response.assertStatus(401)
