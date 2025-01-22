@@ -1,5 +1,5 @@
 import Role from '#models/role'
-import { CreateRoleSchema } from '#domains/roles/validators/role_validators'
+import { CreateRoleSchema, UpdateRoleSchema } from '#domains/roles/validators/role_validators'
 
 export default class RoleService {
   async create({ name, permissions, structureId }: CreateRoleSchema): Promise<Role> {
@@ -12,6 +12,19 @@ export default class RoleService {
 
   async findByStructureId(structureId: string): Promise<Role[]> {
     return Role.query().where('structure_id', structureId)
+  }
+
+  async updateById({ roleId, name, permissions }: UpdateRoleSchema): Promise<Role> {
+    const role = await this.findById(roleId)
+
+    await role
+      .merge({
+        name,
+        permissions,
+      })
+      .save()
+
+    return role
   }
 
   async findById(id: string): Promise<Role> {
