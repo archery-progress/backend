@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core'
 import RoleService from '#domains/roles/services/role_service'
 import { HttpContext } from '@adonisjs/core/http'
-import { createRoleValidator } from '#domains/roles/validators/role_validators'
+import { createRoleValidator, updateRoleValidator } from '#domains/roles/validators/role_validators'
 import logger from '@adonisjs/core/services/logger'
 import RolePolicy from '#domains/roles/policies/role_policy'
 
@@ -37,7 +37,14 @@ export default class RolesController {
     return response.created(role)
   }
 
-  async update({}: HttpContext) {}
+  async update({ request, params, bouncer }: HttpContext) {
+    const { id, structureId } = params
+    await bouncer.with(RolePolicy).authorize('update' as never, structureId)
+    const data = await request.validateUsing(updateRoleValidator)
+
+    return this.roleService.updateById({ ...data, roleId: id })
+  }
+
   async delete({ params, bouncer }: HttpContext) {
     const { id, structureId } = params
     await bouncer.with(RolePolicy).authorize('delete' as never, structureId)
