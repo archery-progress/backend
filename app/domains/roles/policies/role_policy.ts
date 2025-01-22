@@ -28,20 +28,18 @@ export default class RolePolicy extends BasePolicy {
   }
 
   async create(user: User, structureId: string) {
-    let t = await this.permissionService.hasSomePermissions(user.id, structureId, [
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
       Permissions.MANAGE_ROLES,
     ])
+  }
 
-    if (t) {
-      logger.info(
-        `L'user ${user.email} a les permissions pour créer un rôle dans la structure: ${structureId}`
-      )
-      return true
-    } else {
-      logger.error(
-        `L'user ${user.email} n'a pas les permissions pour créer un rôle dans la structure: ${structureId}`
-      )
-      return false
-    }
+  async view(user: User, structureId: string) {
+    return this.permissionService.hasSomePermissions(user.id, structureId, [Permissions.VIEW_ROLES])
+  }
+
+  async delete(user: User, structureId: string) {
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.MANAGE_ROLES,
+    ])
   }
 }

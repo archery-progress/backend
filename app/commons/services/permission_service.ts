@@ -13,6 +13,7 @@ export enum Permissions {
   MANAGE_PRACTICES = 1 << 15,
   VIEW_LOGS = 1 << 16,
   MANAGE_NOTIFICATIONS = 1 << 17,
+  VIEW_ROLES = 1 << 18,
 }
 
 @inject()
