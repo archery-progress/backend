@@ -8,7 +8,7 @@ export enum Permissions {
   ADMINISTRATOR = 1 << 10,
   MANAGE_STRUCTURE = 1 << 11,
   MANAGE_ROLES = 1 << 12,
-  MANAGE_MEMBERS = 1 << 14,
+  MANAGE_MEMBERS = 1 << 13,
   VIEW_MEMBERS = 1 << 14,
   MANAGE_PRACTICES = 1 << 15,
   VIEW_LOGS = 1 << 16,
