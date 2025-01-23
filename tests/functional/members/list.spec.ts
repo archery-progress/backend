@@ -6,7 +6,7 @@ import { UserFactory } from '#database/factories/user_factory'
 import { test } from '@japa/runner'
 
 test.group('Members list', () => {
-  test('must return the list of members if the user is present in the structure', async ({
+  test('must return the list of members if the user is owner of the structure', async ({
     client,
     assert,
   }) => {
@@ -18,6 +18,23 @@ test.group('Members list', () => {
 
     response.assertStatus(200)
     assert.isEmpty(response.body().data.filter((member: Member) => member.userId === user.id))
+  }).tags(['members', 'index'])
+
+  test('must return the list of members if the user is present in the structure', async ({
+    client,
+    assert,
+  }) => {
+    const user = await UserFactory(UserStatus.verified).make()
+    const structure = await StructureFactory().make()
+
+    await MemberFactory(user, structure).make()
+
+    const response = await client.get(`/v1/structures/${structure.id}/members`).loginAs(user).send()
+
+    response.assertStatus(200)
+    assert.isEmpty(
+      response.body().data.filter((member: Member) => member.userId === structure.ownerId)
+    )
   }).tags(['members', 'index'])
 
   test('must return an error (403) if the user is not present in the structure', async ({

@@ -18,11 +18,10 @@ export default class MemberPolicy extends BasePolicy {
 
   async before(user: User, _action: string, structureId: string) {
     await user.load('structures')
+    await user.load('members')
     const structures = user.structures
 
-    const isOwner = structures.some(
-      (structure) => structure.ownerId === user.id && structure.id === structureId
-    )
+    const isOwner = structures.some((structure) => structure.id === structureId)
 
     if (isOwner) return true
 
@@ -40,8 +39,7 @@ export default class MemberPolicy extends BasePolicy {
   }
 
   async view(user: User, structureId: string, member?: Member) {
-    const structures = user.structures
-    const isPresentInStructure = structures.some((structure) => structure.id === structureId)
+    const isPresentInStructure = user.members.some((m) => m.structureId === structureId)
 
     if (member && member.userId === user.id) return true
 
