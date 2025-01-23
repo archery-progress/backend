@@ -4,6 +4,7 @@ import { BasePolicy } from '@adonisjs/bouncer'
 import { inject } from '@adonisjs/core'
 import MemberService from '#domains/members/services/member_service'
 import StructureService from '#domains/structures/services/structure_service'
+import Member from '#app/commons/models/member'
 
 @inject()
 export default class MemberPolicy extends BasePolicy {
@@ -38,9 +39,11 @@ export default class MemberPolicy extends BasePolicy {
     ])
   }
 
-  async view(user: User, structureId: string) {
+  async view(user: User, structureId: string, member?: Member) {
     const structures = user.structures
     const isPresentInStructure = structures.some((structure) => structure.id === structureId)
+
+    if (member && member.userId === user.id) return true
 
     return isPresentInStructure
   }
