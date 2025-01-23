@@ -9,6 +9,7 @@ export function MemberFactory(user: User, structure: Structure) {
       return Member.create({
         userId: user.id,
         structureId: structure.id,
+        permissions: 0,
       })
     })
     .build()

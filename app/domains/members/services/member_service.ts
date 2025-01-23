@@ -35,11 +35,11 @@ export default class MemberService {
     return Member.query().where('id', memberId).firstOrFail()
   }
 
-  async create({ structureId, userId }: CreateMemberSchema) {
+  async create({ structureId, userId, permissions }: CreateMemberSchema) {
     return Member.create({
       structureId,
       userId,
-      permissions: 0,
+      permissions,
     })
   }
 

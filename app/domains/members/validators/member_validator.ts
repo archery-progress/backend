@@ -11,6 +11,7 @@ export const getMembersValidator = vine.compile(
 export const createMemberValidator = vine.compile(
   vine.object({
     userId: vine.string().trim().escape(),
+    permissions: vine.number().optional(),
   })
 )
 

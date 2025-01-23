@@ -9,9 +9,9 @@ router
       .group(() => {
         router.get('/', [MembersController, 'index'])
         router.post('/', [MembersController, 'store'])
-        router.get('/:id', [MembersController, 'show'])
-        router.put('/:id', [MembersController, 'update'])
-        router.delete('/:id', [MembersController, 'delete'])
+        router.get('/:memberId', [MembersController, 'show'])
+        router.put('/:memberId', [MembersController, 'update'])
+        router.delete('/:memberId', [MembersController, 'delete'])
       })
       .prefix('/structures/:structureId/members')
   })
