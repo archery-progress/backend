@@ -20,7 +20,13 @@ export default class MembersController {
     return this.memberService.findAllByStructureId({ ...data, structureId })
   }
 
-  async show({}: HttpContext) {}
+  async show({ params, bouncer }: HttpContext) {
+    const { memberId, structureId } = params
+    const member = await this.memberService.findById(memberId)
+    await bouncer.with(MemberPolicy).authorize('view', structureId, member)
+
+    return member
+  }
 
   async store({ params, request, bouncer, response }: HttpContext) {
     const { structureId } = params
