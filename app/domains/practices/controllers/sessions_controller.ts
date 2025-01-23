@@ -6,7 +6,7 @@ import {
 } from '#domains/practices/validators/session_validator'
 import SessionService from '#domains/practices/services/session_service'
 import { inject } from '@adonisjs/core'
-import SessionPolicy from '#domains/practices/policies/sessions_policy'
+import SessionPolicy from '#domains/practices/policies/session_policy'
 
 @inject()
 export default class SessionsController {
