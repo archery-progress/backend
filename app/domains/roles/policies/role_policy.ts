@@ -8,22 +8,23 @@ export default class RolePolicy extends BasePolicy {
   constructor(protected permissionService: PermissionService) {
     super()
   }
+
   async before(user: User, _action: string, structureId: string) {
     await user.load('structures')
     const structures = user.structures
 
-    if (structures.some((structure) => structure.id === structureId)) {
-      return true
-    }
+    const isOwner = structures.some(
+      (structure) => structure.ownerId === user.id && structure.id === structureId
+    )
 
-    if (
-      await this.permissionService.hasSomePermissions(user.id, structureId, [
-        Permissions.ADMINISTRATOR,
-        Permissions.MANAGE_STRUCTURE,
-      ])
-    ) {
-      return true
-    }
+    if (isOwner) return true
+
+    const isAdmin = await this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.ADMINISTRATOR,
+      Permissions.MANAGE_STRUCTURE,
+    ])
+
+    if (isAdmin) return true
   }
 
   async create(user: User, structureId: string) {
