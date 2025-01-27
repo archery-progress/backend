@@ -45,10 +45,6 @@ export default class UserService {
       })
       .save()
 
-    if (payload.roles) {
-      await user.related('roles').sync(payload.roles)
-    }
-
     return user
   }
 
