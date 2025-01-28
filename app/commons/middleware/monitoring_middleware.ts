@@ -2,6 +2,7 @@ import { Authenticators } from '@adonisjs/auth/types'
 import { HttpContext } from '@adonisjs/core/http'
 import { NextFn } from '@adonisjs/core/types/http'
 import { errors as authErrors } from '@adonisjs/auth'
+import env from '#start/env'
 
 export default class MonitoringMiddleware {
   async handle(
@@ -11,7 +12,7 @@ export default class MonitoringMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    if (request.header('x-monitoring-secret') === '') {
+    if (request.header('x-monitoring-secret') === env.get('MONITORING_KEY')) {
       return next()
     }
 

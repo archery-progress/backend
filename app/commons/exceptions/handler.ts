@@ -13,8 +13,6 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
-    console.log('error', error)
-
     if (error instanceof authErrors.E_UNAUTHORIZED_ACCESS) {
       ctx.response.status(401).send({
         message: error.message,
