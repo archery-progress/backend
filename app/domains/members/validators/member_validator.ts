@@ -32,3 +32,9 @@ export type CreateMemberSchema = Infer<typeof createMemberValidator> & {
 export type UpdateMemberSchema = Infer<typeof updateMemberValidator> & {
   memberId: string
 }
+
+export type MemberRoleSchema = {
+  structureId: string
+  userId: string
+  roleId: string
+}
