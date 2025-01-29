@@ -73,4 +73,16 @@ export default class MemberPolicy extends BasePolicy {
       Permissions.MANAGE_MEMBERS,
     ])
   }
+
+  async removeRole(user: User, structureId: string, userId: string) {
+    const structure = await this.structureService.findById(structureId)
+
+    if (structure.ownerId === userId && user.id !== userId) {
+      return false
+    }
+
+    return this.permissionService.hasSomePermissions(user.id, structureId, [
+      Permissions.MANAGE_MEMBERS,
+    ])
+  }
 }
