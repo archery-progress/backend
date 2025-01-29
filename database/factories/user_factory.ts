@@ -9,7 +9,7 @@ export function UserFactory(status?: UserStatus) {
         lastname: faker.person.lastName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
-        status: status ?? UserStatus.disabled,
+        status: status ?? UserStatus.verified,
         permissions: 0,
       })
     })
