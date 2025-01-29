@@ -31,6 +31,8 @@ export class PermissionService {
     const t = member.roles.map((role) => role.permissions)
     let permissions: Permissions[] = []
 
+    permissions = permissions.concat(await this.fromBitfield(member.permissions))
+
     for (const x of t) {
       let a = await this.fromBitfield(x)
       permissions = permissions.concat(a)
