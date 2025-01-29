@@ -3,6 +3,7 @@ import Member from '#models/member'
 import {
   CreateMemberSchema,
   GetMembersSchema,
+  MemberRoleSchema,
   UpdateMemberSchema,
 } from '#domains/members/validators/member_validator'
 import { inject } from '@adonisjs/core'
@@ -32,7 +33,7 @@ export default class MemberService {
   }
 
   async findById(memberId: string) {
-    return Member.query().where('id', memberId).firstOrFail()
+    return Member.query().where('id', memberId).preload('roles').preload('structure').firstOrFail()
   }
 
   async create({ structureId, userId, permissions }: CreateMemberSchema) {
@@ -56,5 +57,17 @@ export default class MemberService {
   async deleteById(memberId: string) {
     const member = await this.findById(memberId)
     await member.delete()
+  }
+
+  async addRole({ structureId, userId, roleId }: MemberRoleSchema) {
+    const member = await this.findFromStructure(structureId, userId)
+
+    await member.related('roles').attach([roleId])
+  }
+
+  async removeRole({ structureId, userId, roleId }: MemberRoleSchema) {
+    const member = await this.findFromStructure(structureId, userId)
+
+    await member.related('roles').detach([roleId])
   }
 }
