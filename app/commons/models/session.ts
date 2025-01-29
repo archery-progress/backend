@@ -7,7 +7,7 @@ export default class Session extends BaseModel {
   declare id: string
 
   @column()
-  declare userId: string
+  declare memberId: string
 
   @column()
   declare structureId: string
