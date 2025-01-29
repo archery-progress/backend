@@ -8,6 +8,7 @@ import {
 } from '#domains/members/validators/member_validator'
 import { inject } from '@adonisjs/core'
 import RoleService from '#app/domains/roles/services/role_service'
+import drive from '@adonisjs/drive/services/main'
 
 @inject()
 export default class MemberService {
@@ -28,12 +29,24 @@ export default class MemberService {
     return Member.query()
       .where('structure_id', structureId)
       .andWhereNot('user_id', ownerId)
+      .preload('user')
       .preload('roles')
       .paginate(page, limit)
   }
 
   async findById(memberId: string) {
-    return Member.query().where('id', memberId).preload('roles').preload('structure').firstOrFail()
+    const member = await Member.query()
+      .where('id', memberId)
+      .preload('user')
+      .preload('roles')
+      .preload('structure')
+      .firstOrFail()
+
+    member.user.avatar = member.user.avatar
+      ? await drive.use('gcp').getSignedUrl(member.user.avatar)
+      : null
+
+    return member
   }
 
   async create({ structureId, userId, permissions }: CreateMemberSchema) {
