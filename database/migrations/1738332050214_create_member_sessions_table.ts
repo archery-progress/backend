@@ -6,9 +6,10 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
+      table.text('details').nullable()
+      table.string('status').defaultTo('pending').notNullable()
       table.string('member_id').references('id').inTable('members').notNullable()
       table.string('session_id').references('id').inTable('sessions').notNullable()
-      table.text('description').nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
