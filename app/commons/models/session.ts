@@ -7,9 +7,6 @@ export default class Session extends BaseModel {
   declare id: string
 
   @column()
-  declare memberId: string
-
-  @column()
   declare structureId: string
 
   @column.dateTime()
@@ -19,7 +16,7 @@ export default class Session extends BaseModel {
   declare order: Record<string, any>
 
   @column()
-  declare annotation: string
+  declare description: string
 
   @beforeCreate()
   public static generateUuid(session: Session) {

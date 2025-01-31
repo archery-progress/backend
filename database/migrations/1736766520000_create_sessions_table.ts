@@ -9,8 +9,7 @@ export default class extends BaseSchema {
       table.string('structure_id').references('id').inTable('structures').nullable()
       table.timestamp('target_datetime').notNullable()
       table.jsonb('order').notNullable()
-      table.string('annotation').notNullable()
-
+      table.string('description').notNullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
