@@ -1,4 +1,3 @@
-import Member from '#app/commons/models/member'
 import { Permissions } from '#app/commons/services/permission_service'
 import { MemberFactory } from '#database/factories/member_factory'
 import { RoleFactory } from '#database/factories/role_factory'
