@@ -57,6 +57,14 @@ router
         router.post('', [SessionsController, 'store']).as('store')
         router.put(':uid', [SessionsController, 'update']).as('update')
         router.delete(':uid', [SessionsController, 'destroy']).as('delete')
+
+        router
+          .group(() => {
+            router.put(':uid', [SessionParticipantController, 'add']).as('add')
+            router.delete(':uid', [SessionParticipantController, 'remove']).as('remove')
+          })
+          .prefix('/participants')
+          .as('participants')
       })
       .prefix('/sessions')
       .as('sessions')

@@ -16,7 +16,10 @@ export default class MemberSession extends BaseModel {
   declare sessionId: string
 
   @column()
-  declare description: string | null
+  declare details: string | null
+
+  @column()
+  declare status: 'pending' | 'accepted' | 'rejected'
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
