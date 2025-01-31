@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, scope } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'node:crypto'
+import MemberSession from '#models/member_session'
+import { type BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Practice extends BaseModel {
   @column({ isPrimary: true })
@@ -10,7 +12,7 @@ export default class Practice extends BaseModel {
   declare structureId: string | null
 
   @column()
-  declare memberId: string | null
+  declare memberSessionId: string | null
 
   @column()
   declare name: string
@@ -31,9 +33,6 @@ export default class Practice extends BaseModel {
   declare results: Record<string, any>
 
   @column()
-  declare sessionId: string
-
-  @column()
   declare type: string
 
   @beforeCreate()
@@ -46,6 +45,9 @@ export default class Practice extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(() => MemberSession)
+  declare member: BelongsTo<typeof MemberSession>
 
   static search = scope((query, search?: string) => {
     // If search is given, followed is executed

@@ -13,8 +13,8 @@ export default class SessionService {
       .paginate(payload.page ?? 1, payload.limit ?? 20)
   }
 
-  async findByUid(uid: string) {
-    return Session.findByOrFail('uid', uid)
+  async findById(id: string) {
+    return Session.query().where('id', id).preload('presets').firstOrFail()
   }
 
   async store(payload: StoreSessionSchema) {
@@ -22,12 +22,12 @@ export default class SessionService {
   }
 
   async update(payload: UpdateSessionSchema) {
-    const practice = await this.findByUid(payload.uid)
+    const practice = await this.findById(payload.uid)
     return practice.merge(payload).save()
   }
 
   async delete(uid: string) {
-    const user = await this.findByUid(uid)
+    const user = await this.findById(uid)
     return user.delete()
   }
 }

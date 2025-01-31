@@ -1,5 +1,5 @@
 import factory from '@adonisjs/lucid/factories'
-import PracticeCountedShotPreset from '#models/practice_counted_shot_preset'
+import PracticeCountedShotPreset from '#models/practice_preset'
 import Structure from '#models/structure'
 
 export function PracticeCountedShotPresetFactory(structure?: Structure) {

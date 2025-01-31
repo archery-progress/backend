@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'node:crypto'
 
-export default class PracticeCountedShotPreset extends BaseModel {
+export default class PracticePreset extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
 
