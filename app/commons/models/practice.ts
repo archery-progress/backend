@@ -10,7 +10,7 @@ export default class Practice extends BaseModel {
   declare structureId: string | null
 
   @column()
-  declare userId: string | null
+  declare memberId: string | null
 
   @column()
   declare name: string

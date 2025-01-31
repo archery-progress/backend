@@ -13,7 +13,7 @@ export default class PracticeFiringSequence extends BaseModel {
   declare results: Record<string, any>
 
   @column()
-  declare annotation: string
+  declare description: string
 
   @column()
   declare total: number

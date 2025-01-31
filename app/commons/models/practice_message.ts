@@ -7,13 +7,13 @@ export default class PracticeMessage extends BaseModel {
   declare id: string
 
   @column()
-  declare practiceId: string
+  declare memberSessionId: string
 
   @column()
   declare content: string
 
   @column()
-  declare userId: string
+  declare memberId: string
 
   @beforeCreate()
   static generateUuid(practiceMessage: PracticeMessage) {

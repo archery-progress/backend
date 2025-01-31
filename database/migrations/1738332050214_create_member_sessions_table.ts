@@ -1,16 +1,14 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'practice_firing_sequences'
+  protected tableName = 'member_sessions'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
-      table.string('practice_id').references('id').inTable('practices').notNullable()
-      table.jsonb('results').notNullable()
-      table.string('annotation').nullable()
-      table.bigint('total').notNullable()
-
+      table.string('member_id').references('id').inTable('members').notNullable()
+      table.string('session_id').references('id').inTable('sessions').notNullable()
+      table.text('description').nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
