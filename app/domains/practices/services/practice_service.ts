@@ -13,8 +13,8 @@ export default class PracticeService {
       .paginate(payload.page ?? 1, payload.limit ?? 20)
   }
 
-  async findByUid(uid: string) {
-    return Practice.findByOrFail('uid', uid)
+  async findByUid(id: string) {
+    return Practice.query().preload('member').where('id', id).firstOrFail()
   }
 
   async store(payload: StorePracticeSchema) {

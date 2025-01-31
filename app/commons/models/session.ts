@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, manyToMany, scope } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'node:crypto'
+import PracticePreset from '#models/practice_preset'
+import { type ManyToMany } from '@adonisjs/lucid/types/relations'
 
 export default class Session extends BaseModel {
   @column({ isPrimary: true })
@@ -31,6 +33,9 @@ export default class Session extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @manyToMany(() => PracticePreset)
+  declare presets: ManyToMany<typeof PracticePreset>
 
   static search = scope((query, search?: string) => {
     query.if(search, (builder) => {

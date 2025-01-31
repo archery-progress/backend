@@ -6,9 +6,11 @@ const PracticesController = () => import('#domains/practices/controllers/practic
 const PracticeFiringSequencesController = () =>
   import('#app/domains/practices/controllers/practice_firing_sequences_controller')
 const PracticeCountedShotPresetsController = () =>
-  import('#app/domains/practices/controllers/practice_counted_shot_presets_controller')
+  import('#domains/practices/controllers/practice_presets_controller')
 const PracticeMessagesController = () =>
   import('#app/domains/practices/controllers/practice_messages_controller')
+const SessionParticipantsController = () =>
+  import('#app/domains/practices/controllers/session_participants_controller')
 
 router
   .group(() => {
@@ -60,8 +62,8 @@ router
 
         router
           .group(() => {
-            router.put(':uid', [SessionParticipantController, 'add']).as('add')
-            router.delete(':uid', [SessionParticipantController, 'remove']).as('remove')
+            router.put(':uid', [SessionParticipantsController, 'add']).as('add')
+            router.delete(':uid', [SessionParticipantsController, 'remove']).as('remove')
           })
           .prefix('/participants')
           .as('participants')

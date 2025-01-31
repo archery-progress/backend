@@ -1,9 +1,10 @@
-import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import { randomUUID } from 'node:crypto'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Member from '#models/member'
 import Session from '#models/session'
+import Practice from '#models/practice'
 
 export default class MemberSession extends BaseModel {
   @column({ isPrimary: true })
@@ -32,6 +33,9 @@ export default class MemberSession extends BaseModel {
 
   @belongsTo(() => Session)
   declare session: BelongsTo<typeof Session>
+
+  @hasMany(() => Practice)
+  declare practices: HasMany<typeof Practice>
 
   @beforeCreate()
   static generateUuid(session: MemberSession) {
