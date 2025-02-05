@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       table.string('lastname').notNullable()
       table.string('email', 254).notNullable().unique()
       table.string('password').notNullable()
+      table.date('birthdate')
       table.string('avatar').nullable()
       table.integer('permissions').notNullable()
       table.enum('status', Object.keys(UserStatus)).notNullable().defaultTo('pending')

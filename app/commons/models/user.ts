@@ -38,6 +38,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare status: UserStatus
 
+  @column.date()
+  declare birthdate: DateTime
+
   @column()
   declare avatar: string | null
 
