@@ -14,20 +14,26 @@ export default class SessionService {
   }
 
   async findById(id: string) {
-    return Session.query().where('id', id).preload('presets').firstOrFail()
+    return Session.query()
+      .where('id', id)
+      .preload('presets')
+      .preload('participants', (builder) =>
+        builder.preload('member', (query) => query.preload('user'))
+      )
+      .firstOrFail()
   }
 
   async store(payload: StoreSessionSchema) {
-    return Session.create(payload)
+    return Session.create({ ...payload, order: payload.order ?? {} })
   }
 
-  async update(payload: UpdateSessionSchema) {
-    const practice = await this.findById(payload.uid)
-    return practice.merge(payload).save()
+  async update(sessionId: string, payload: UpdateSessionSchema) {
+    const session = await this.findById(sessionId)
+    return session.merge(payload).save()
   }
 
-  async delete(uid: string) {
-    const user = await this.findById(uid)
-    return user.delete()
+  async delete(id: string) {
+    const session = await this.findById(id)
+    return session.delete()
   }
 }

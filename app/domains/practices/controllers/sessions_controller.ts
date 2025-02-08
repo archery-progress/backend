@@ -20,12 +20,19 @@ export default class SessionsController {
     return this.sessionService.paginate(payload)
   }
 
+  async show({ params, bouncer }: HttpContext) {
+    const { structureId, sessionId } = params
+    await bouncer.with(SessionPolicy).authorize('view', structureId)
+
+    return this.sessionService.findById(sessionId)
+  }
+
   async store({ request, params, bouncer }: HttpContext) {
     const { structureId } = params
     const payload = await request.validateUsing(storeSessionValidator)
     await bouncer.with(SessionPolicy).authorize('create', structureId)
 
-    return this.sessionService.store(payload)
+    return this.sessionService.store({ ...payload, structureId })
   }
 
   async update({ params, request, bouncer }: HttpContext) {
@@ -33,10 +40,7 @@ export default class SessionsController {
     const payload = await request.validateUsing(updateSessionValidator)
     await bouncer.with(SessionPolicy).authorize('update', structureId)
 
-    return this.sessionService.update({
-      ...payload,
-      uid: params.uid,
-    })
+    return this.sessionService.update(params.sessionId, payload)
   }
 
   async destroy({ params, bouncer }: HttpContext) {

@@ -8,15 +8,6 @@ export const searchSessionValidator = vine.compile(vine.object(searchComposable.
 export const storeSessionValidator = vine.compile(
   vine.object({
     uid: vine.string().minLength(2).optional(),
-    targetDatetime: vine.string().transform((date) => DateTime.fromISO(date)),
-    order: vine.any(),
-    annotation: vine.string().minLength(2).maxLength(255),
-  })
-)
-
-export const updateSessionValidator = vine.compile(
-  vine.object({
-    uid: vine.string().minLength(2).optional(),
     targetDatetime: vine
       .string()
       .transform((date) => DateTime.fromISO(date))
@@ -26,8 +17,20 @@ export const updateSessionValidator = vine.compile(
   })
 )
 
+export const updateSessionValidator = vine.compile(
+  vine.object({
+    name: vine.string().minLength(2).maxLength(255).optional(),
+    description: vine.string().minLength(2).maxLength(255).optional(),
+    targetDatetime: vine
+      .string()
+      .transform((date) => DateTime.fromISO(date))
+      .optional(),
+    order: vine.any().optional(),
+  })
+)
+
 export type SearchSessionSchema = Infer<typeof searchSessionValidator>
-export type StoreSessionSchema = Infer<typeof storeSessionValidator>
-export type UpdateSessionSchema = Infer<typeof updateSessionValidator> & {
-  uid: string
+export type StoreSessionSchema = Infer<typeof storeSessionValidator> & {
+  structureId: string
 }
+export type UpdateSessionSchema = Infer<typeof updateSessionValidator>

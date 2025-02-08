@@ -56,17 +56,22 @@ router
     router
       .group(() => {
         router.get('', [SessionsController, 'index']).as('index')
+        router.get(':sessionId', [SessionsController, 'show']).as('show')
         router.post('', [SessionsController, 'store']).as('store')
-        router.put(':uid', [SessionsController, 'update']).as('update')
-        router.delete(':uid', [SessionsController, 'destroy']).as('delete')
+        router.put(':sessionId', [SessionsController, 'update']).as('update')
+        router.delete(':sessionId', [SessionsController, 'destroy']).as('delete')
 
         router
           .group(() => {
-            router.put(':uid', [SessionParticipantsController, 'add']).as('add')
-            router.delete(':uid', [SessionParticipantsController, 'remove']).as('remove')
+            router
+              .group(() => {
+                router.put(':memberId', [SessionParticipantsController, 'add']).as('add')
+                router.delete(':memberId', [SessionParticipantsController, 'remove']).as('remove')
+              })
+              .prefix('/participants')
+              .as('participants')
           })
-          .prefix('/participants')
-          .as('participants')
+          .prefix(':sessionId')
       })
       .prefix('/sessions')
       .as('sessions')
