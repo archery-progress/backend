@@ -17,7 +17,7 @@ COPY ./pnpm-lock.yaml .
 COPY . .
 
 FROM dependencies AS build
-RUN pnpm install --frozen-lockfile --prod --ignore-scripts
+RUN pnpm install
 RUN pnpm run build
 
 FROM base AS production
