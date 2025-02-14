@@ -4,6 +4,7 @@ FROM $NODE_IMAGE AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+RUN corepack prepare pnpm@9.15.0 --activate
 
 RUN apk --no-cache add dumb-init
 WORKDIR /home/node/app
@@ -16,7 +17,7 @@ COPY ./pnpm-lock.yaml .
 COPY . .
 
 FROM dependencies AS build
-RUN pnpm install
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 RUN pnpm run build
 
 FROM base AS production
