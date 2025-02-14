@@ -4,6 +4,7 @@ import { middleware } from '#start/kernel'
 const UsersController = () => import('#domains/accounts/controllers/users_controller')
 const UserStructuresController = () =>
   import('#domains/accounts/controllers/user_structures_controller')
+
 router
   .group(() => {
     router

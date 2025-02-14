@@ -7,10 +7,14 @@
 |
 */
 
+import swagger from '#config/swagger'
 import router from '@adonisjs/core/services/router'
+import AutoSwagger from 'adonis-autoswagger'
 
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
+router.get('/swagger', async () => {
+  return AutoSwagger.default.docs(router.toJSON(), swagger)
+})
+
+router.get('/docs', async () => {
+  return AutoSwagger.default.scalar('/swagger')
 })
