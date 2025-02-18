@@ -7,8 +7,8 @@ export function UserFactory(status?: UserStatus) {
       return User.create({
         firstname: faker.person.firstName(),
         lastname: faker.person.lastName(),
+        oidcId: faker.git.commitSha({ length: 15 }),
         email: faker.internet.email(),
-        password: faker.internet.password(),
         status: status ?? UserStatus.verified,
         permissions: 0,
       })

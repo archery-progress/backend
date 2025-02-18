@@ -18,6 +18,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   HOST: Env.schema.string({ format: 'host' }),
   LOG_LEVEL: Env.schema.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
   MONITORING_KEY: Env.schema.string(),
+  FRONTEND_URL: Env.schema.string(),
 
   /*
   |----------------------------------------------------------
@@ -53,4 +54,12 @@ export default await Env.create(new URL('../', import.meta.url), {
   GCP_CLIENT_EMAIL: Env.schema.string(),
   GCP_PRIVATE_KEY: Env.schema.string(),
   GCP_BUCKET: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring ally package
+  |----------------------------------------------------------
+  */
+  GOOGLE_CLIENT_ID: Env.schema.string(),
+  GOOGLE_CLIENT_SECRET: Env.schema.string(),
 })

@@ -1,22 +1,13 @@
 import { DateTime } from 'luxon'
-import hash from '@adonisjs/core/services/hash'
-import { compose } from '@adonisjs/core/helpers'
-import { afterFind, BaseModel, beforeCreate, column, hasMany, scope } from '@adonisjs/lucid/orm'
-import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { BaseModel, beforeCreate, column, hasMany, scope } from '@adonisjs/lucid/orm'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Structure from '#models/structure'
 import { Sharp } from 'sharp'
 import { randomUUID } from 'node:crypto'
-import drive from '@adonisjs/drive/services/main'
 import Member from '#models/member'
 
-const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
-  uids: ['email'],
-  passwordColumnName: 'password',
-})
-
-export default class User extends compose(BaseModel, AuthFinder) {
+export default class User extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
 
@@ -29,8 +20,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare email: string
 
-  @column({ serializeAs: null })
-  declare password: string
+  @column()
+  declare oidcId: string
 
   @column()
   declare permissions: number
@@ -66,13 +57,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
   public static assignUuid(user: User) {
     if (!user.id) {
       user.id = randomUUID()
-    }
-  }
-
-  @afterFind()
-  static async resolveSignedUrl(user: User) {
-    if (user.avatar) {
-      user.avatar = await drive.use().getSignedUrl(user.avatar)
     }
   }
 
