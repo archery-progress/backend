@@ -22,10 +22,13 @@ export default class Structure extends BaseModel {
   declare name: string
 
   @column()
+  declare description?: string
+
+  @column()
   declare ownerId: string
 
   @column()
-  declare siret: string
+  declare siret?: string
 
   @column()
   declare isDeactivated: boolean
