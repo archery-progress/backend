@@ -1,4 +1,5 @@
 import Structure from '#app/commons/models/structure'
+import { CreateStructureSchema } from '../validators/structure_validator.js'
 
 export default class StructureService {
   async findById(structureId: string) {
@@ -11,5 +12,18 @@ export default class StructureService {
         query.where('user_id', userId)
       })
       .orWhere('owner_id', userId)
+  }
+
+  async findAllByOwnerId(ownerId: string) {
+    return Structure.query().where('owner_id', ownerId)
+  }
+
+  async create(data: CreateStructureSchema, userId: string) {
+    const structure = await Structure.create({
+      name: data.name,
+      ownerId: userId,
+    })
+
+    return structure
   }
 }
