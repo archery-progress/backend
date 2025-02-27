@@ -40,7 +40,7 @@ export default defineConfig({
     () => import('@adonisjs/mail/mail_provider'),
     () => import('@adonisjs/drive/drive_provider'),
     () => import('@adonisjs/bouncer/bouncer_provider'),
-    () => import('@adonisjs/ally/ally_provider')
+    () => import('@adonisjs/ally/ally_provider'),
   ],
 
   /*
@@ -60,6 +60,7 @@ export default defineConfig({
     () => import('#domains/practices/routes'),
     () => import('#domains/members/routes'),
     () => import('#domains/health/routes'),
+    () => import('#domains/structures/routes'),
   ],
 
   /*
