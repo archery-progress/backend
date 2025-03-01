@@ -1,4 +1,6 @@
+import Member from '#app/commons/models/member'
 import Structure from '#app/commons/models/structure'
+import db from '@adonisjs/lucid/services/db'
 import { CreateStructureSchema } from '../validators/structure_validator.js'
 
 export default class StructureService {
@@ -19,10 +21,29 @@ export default class StructureService {
   }
 
   async create(data: CreateStructureSchema, userId: string) {
-    const structure = await Structure.create({
-      name: data.name,
-      ownerId: userId,
-    })
+    const trx = await db.transaction()
+    const structure = await Structure.create(
+      {
+        name: data.name,
+        ownerId: userId,
+      },
+      {
+        client: trx,
+      }
+    )
+
+    await Member.create(
+      {
+        structureId: structure.id,
+        userId,
+        permissions: 0,
+      },
+      {
+        client: trx,
+      }
+    )
+
+    await trx.commit()
 
     return structure
   }
