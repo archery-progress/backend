@@ -1,4 +1,3 @@
-import Structure from '#app/commons/models/structure'
 import Member from '#models/member'
 import {
   CreateMemberSchema,
@@ -8,7 +7,6 @@ import {
 } from '#domains/members/validators/member_validator'
 import { inject } from '@adonisjs/core'
 import RoleService from '#app/domains/roles/services/role_service'
-import drive from '@adonisjs/drive/services/main'
 
 @inject()
 export default class MemberService {
