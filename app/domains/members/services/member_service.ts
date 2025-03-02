@@ -22,31 +22,20 @@ export default class MemberService {
   }
 
   async findAllByStructureId({ structureId, limit = 50, page = 1 }: GetMembersSchema) {
-    const structure = await Structure.findOrFail(structureId)
-
-    const ownerId = structure.ownerId
-
     return Member.query()
       .where('structure_id', structureId)
-      .andWhereNot('user_id', ownerId)
       .preload('user')
       .preload('roles')
       .paginate(page, limit)
   }
 
   async findById(memberId: string) {
-    const member = await Member.query()
+    return Member.query()
       .where('id', memberId)
       .preload('user')
       .preload('roles')
       .preload('structure')
       .firstOrFail()
-
-    member.user.avatar = member.user.avatar
-      ? await drive.use('gcp').getSignedUrl(member.user.avatar)
-      : null
-
-    return member
   }
 
   async create({ structureId, userId, permissions }: CreateMemberSchema) {
