@@ -8,6 +8,12 @@ router
     router
       .group(() => {
         router.post('/', [StructuresController, 'create'])
+
+        router
+          .group(() => {
+            router.get('/', [StructuresController, 'show'])
+          })
+          .prefix('/:structureId')
       })
       .prefix('/structures')
   })
