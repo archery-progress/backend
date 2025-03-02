@@ -8,6 +8,12 @@ import { inject } from '@adonisjs/core'
 export default class StructuresController {
   constructor(protected structureService: StructureService) {}
 
+  async show({ params }: HttpContext) {
+    const { structureId } = params
+
+    return await this.structureService.findById(structureId)
+  }
+
   async create({ request, bouncer, auth, response }: HttpContext) {
     await bouncer.with(StructurePolicy).authorize('create')
     const data = await request.validateUsing(createStructureValidator)
